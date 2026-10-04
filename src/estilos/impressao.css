@@ -1,0 +1,102 @@
+/* Elementos que só existem no relatório impresso (PDF). */
+.fl-so-impressao {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 12px;
+  }
+
+  /* Some o que é navegação ou interação */
+  .fl-topo,
+  .fl-rodape,
+  .fl-acoes,
+  .fl-botao-leve,
+  .fl-abas-lista {
+    display: none !important;
+  }
+
+  .fl-so-impressao {
+    display: block;
+  }
+
+  .fl-relatorio-cabecalho {
+    border-bottom: 2px solid #000;
+    padding-bottom: 8px;
+    margin: 8px 0 16px;
+  }
+
+  .fl-relatorio-cabecalho p {
+    margin: 2px 0;
+    font-size: 11px;
+  }
+
+  .fl-principal {
+    padding: 0;
+    max-width: none;
+  }
+
+  .fl-grade {
+    display: block;
+  }
+
+  .fl-parametros {
+    position: static;
+    margin-bottom: 14px;
+    break-inside: avoid;
+  }
+
+  /* Mostra todas as abas, com o título de cada uma */
+  .fl-painel[hidden] {
+    display: block !important;
+  }
+
+  .fl-painel {
+    padding: 8px 0;
+  }
+
+  .fl-abas {
+    border: 0;
+  }
+
+  .fl-tabela {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .fl-veredito,
+  .fl-kpi,
+  .fl-grafico,
+  .fl-formulas-passo,
+  .fl-levar {
+    break-inside: avoid;
+  }
+
+  .fl-levar {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+  }
+
+  .fl-levar span {
+    color: #000;
+  }
+
+  .fl-termo {
+    border-bottom: 0;
+  }
+
+  .fl-termo-dica {
+    display: none;
+  }
+
+  .fl-graficos-duplos {
+    grid-template-columns: 1fr 1fr;
+  }
+}

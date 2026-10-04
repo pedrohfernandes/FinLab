@@ -1,0 +1,19 @@
+:root {
+  --tinta: #172c2b;
+  --tinta-suave: #5f716c;
+  --verde: #0d6b58;
+  --verde-claro: #dff4e9;
+  --verde-vivo: #75e0b6;
+  --papel: #f4f7f3;
+  --branco: #ffffff;
+  --linha: #dfe7e1;
+  --roxo: #5b3fa8;
+  --roxo-claro: #f2eefc;
+  --laranja: #b5651d;
+  --laranja-claro: #fff1e3;
+  --vermelho: #b14e4e;
+  --raio: 14px;
+  --largura: 1180px;
+  --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --fonte-titulo: 'Segoe UI Semibold', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+}
