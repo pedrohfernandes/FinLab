@@ -4,7 +4,17 @@
 
 Trabalho 1 de Administração Financeira (CAD 167 · UFMG · 2º semestre de 2026).
 
-O FinLab transforma decisões do dia a dia em simulações com as taxas reais do Brasil e mostra a matemática por trás de cada resultado.
+**Autores:** Mariana Sampaio e Pedro Fernandes.
+
+**Versão online:** <https://pedrohfernandes.github.io/FinLab>
+
+## Objetivo
+
+Ensinar o **valor do dinheiro no tempo** a partir de decisões financeiras reais do brasileiro. O FinLab transforma decisões do dia a dia em simulações com as taxas reais do Brasil e mostra a matemática por trás de cada resultado.
+
+O conteúdo segue os capítulos 4 (VPL e valor do dinheiro no tempo) e 5 (taxas de juros) de _Fundamentos de Finanças Empresariais_, de Berk, DeMarzo e Harford.
+
+## Módulos
 
 | Módulo | Pergunta              | Conteúdo da disciplina                                                                              |
 | ------ | --------------------- | --------------------------------------------------------------------------------------------------- |
@@ -80,7 +90,7 @@ Regras: `financas/` não importa nada de React nem de `dados/`; as páginas não
 
 ## Publicação no GitHub Pages
 
-O workflow `.github/workflows/deploy.yml` roda os testes, gera o build e publica a cada push na `main`. Configure uma vez em **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+O workflow `.github/workflows/deploy.yml` roda os testes, gera o build e publica a cada push na `main`.
 
 ## Limites do modelo
 
