@@ -54,6 +54,7 @@ export default function Layout() {
           Projeto educacional de Administração Financeira (CAD 167 · UFMG). Os resultados são simulações matemáticas, não recomendação de
           investimento.
         </p>
+        <p>Feito por Mariana Sampaio e Pedro Fernandes</p>
       </footer>
     </>
   );

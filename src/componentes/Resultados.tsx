@@ -12,8 +12,9 @@ export function CartaoKpi({ rotulo, valor, detalhe }: { rotulo: ReactNode; valor
   );
 }
 
-export function GradeKpis({ children }: { children: ReactNode }) {
-  return <div className="fl-kpis">{children}</div>;
+/** Grade de indicadores. Com `umaLinha`, todos os cartões ficam lado a lado em telas largas. */
+export function GradeKpis({ children, umaLinha = false }: { children: ReactNode; umaLinha?: boolean }) {
+  return <div className={umaLinha ? 'fl-kpis fl-kpis--linha' : 'fl-kpis'}>{children}</div>;
 }
 
 /**
@@ -44,11 +45,17 @@ export function Grafico({
   titulo,
   descricao,
   altura = 320,
+  fonte,
+  nota,
   children,
 }: {
   titulo: string;
   descricao?: string;
   altura?: number;
+  /** Origem dos dados, exibida abaixo do gráfico. */
+  fonte?: ReactNode;
+  /** Frase de apoio para ler o gráfico, exibida abaixo dele. */
+  nota?: ReactNode;
   children: ReactElement;
 }) {
   return (
@@ -59,6 +66,8 @@ export function Grafico({
           {children}
         </ResponsiveContainer>
       </div>
+      {nota && <p className="fl-grafico-fonte">{nota}</p>}
+      {fonte && <p className="fl-grafico-fonte">Fonte: {fonte}</p>}
     </figure>
   );
 }

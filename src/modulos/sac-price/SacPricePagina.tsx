@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { AcoesRelatorio } from '../../componentes/AcoesRelatorio';
 import { CampoNumerico, CampoSelecao } from '../../componentes/Campos';
 import { ListaFormulas } from '../../componentes/Formula';
@@ -11,6 +11,7 @@ import { mensalParaAnual, type TipoTaxa } from '../../financas/taxas';
 import { useParametrosUrl } from '../../hooks/useParametrosUrl';
 import { CORES } from '../../utils/cores';
 import { brl, brl0, percentual } from '../../utils/formatacao';
+import type { LinhaAmortizacao } from '../../financas/amortizacao';
 import { calcularSacPrice, PRAZO_MAXIMO_MESES, validarEntrada, type EntradaSacPrice } from './calculo';
 import { ExplicacaoSacPrice } from './explicacoes';
 import { formulasSacPrice } from './formulas';
@@ -30,6 +31,36 @@ const TIPOS: { valor: TipoTaxa; rotulo: string }[] = [
   { valor: 'anual-efetiva', rotulo: 'Ao ano — efetiva (equivalente)' },
   { valor: 'anual-nominal', rotulo: 'Ao ano — nominal (÷ 12)' },
 ];
+
+/** Balão do gráfico de composição: mostra a parcela inteira, as duas partes e o saldo. */
+function BalaoParcela({ active, payload }: { active?: boolean; payload?: { payload: LinhaAmortizacao }[] }) {
+  if (!active || !payload?.length) return null;
+  const l = payload[0].payload;
+  return (
+    <div className="fl-balao">
+      <strong>Mês {l.mes}</strong>
+      <div>Parcela: {brl(l.parcela)}</div>
+      <div>Amortização: {brl(l.amortizacao)}</div>
+      <div>Juros: {brl(l.juros)}</div>
+      <div>Saldo devedor depois: {brl(l.saldoFinal)}</div>
+    </div>
+  );
+}
+
+/** Barras empilhadas (uma por mês): a parte escura reduz a dívida, a clara são juros. */
+function ComposicaoParcela({ dados, cor, corClara, maximo }: { dados: LinhaAmortizacao[]; cor: string; corClara: string; maximo: number }) {
+  return (
+    <BarChart data={dados} margin={{ top: 14, right: 12, bottom: 22, left: 4 }} barCategoryGap={dados.length > 60 ? 0 : '12%'}>
+      <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" vertical={false} />
+      <XAxis dataKey="mes" interval="preserveStartEnd" minTickGap={14} label={{ value: 'Mês', position: 'insideBottom', offset: -12 }} />
+      <YAxis domain={[0, maximo]} tickFormatter={(y: number) => brl0(y)} width={76} />
+      <Tooltip content={<BalaoParcela />} cursor={{ fill: 'rgba(23, 58, 54, 0.06)' }} />
+      <Legend verticalAlign="top" height={32} formatter={(nome: string) => <span style={{ color: CORES.tinta }}>{nome}</span>} />
+      <Bar dataKey="amortizacao" name="Amortização (reduz a dívida)" stackId="p" fill={cor} isAnimationActive={false} />
+      <Bar dataKey="juros" name="Juros" stackId="p" fill={corClara} stroke={dados.length > 36 ? undefined : cor} strokeWidth={0.5} isAnimationActive={false} />
+    </BarChart>
+  );
+}
 
 export default function SacPricePagina() {
   const { dados } = useTaxas();
@@ -56,7 +87,7 @@ export default function SacPricePagina() {
 
   const parametros = (
     <>
-      <CampoNumerico rotulo="Valor emprestado" unidade="R$" valor={v.principal} min={0.01} onChange={(principal) => definir({ principal })} />
+      <CampoNumerico rotulo="Valor emprestado" moeda unidade="R$" valor={v.principal} min={0.01} onChange={(principal) => definir({ principal })} />
       <CampoNumerico rotulo="Taxa de juros do empréstimo" unidade="%" valor={v.taxa} min={0} max={500} onChange={(taxa) => definir({ taxa })} />
       <CampoSelecao
         rotulo="A taxa é informada…"
@@ -129,25 +160,11 @@ export default function SacPricePagina() {
             </GradeKpis>
 
             <div className="fl-graficos-duplos">
-              <Grafico titulo="SAC: composição de cada parcela" descricao="Áreas empilhadas de amortização e juros por mês no SAC" altura={280}>
-                <AreaChart data={r.sac} margin={{ top: 8, right: 12, bottom: 8, left: 4 }}>
-                  <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" />
-                  <XAxis dataKey="mes" />
-                  <YAxis domain={[0, maxParcela]} tickFormatter={(y: number) => brl0(y)} width={76} />
-                  <Tooltip formatter={(valor, nome) => [brl(Number(valor)), String(nome)]} labelFormatter={(m) => `Mês ${m}`} />
-                  <Area dataKey="amortizacao" name="Amortização" stackId="1" stroke={CORES.verde} fill={CORES.verde} fillOpacity={0.85} isAnimationActive={false} />
-                  <Area dataKey="juros" name="Juros" stackId="1" stroke={CORES.verdeClaro} fill={CORES.verdeClaro} fillOpacity={0.9} isAnimationActive={false} />
-                </AreaChart>
+              <Grafico titulo="SAC: composição de cada parcela" descricao="Barras empilhadas de amortização e juros por mês no SAC" altura={300}>
+                <ComposicaoParcela dados={r.sac} cor={CORES.verde} corClara={CORES.verdeClaro} maximo={maxParcela} />
               </Grafico>
-              <Grafico titulo="Price: composição de cada parcela" descricao="Áreas empilhadas de amortização e juros por mês na Price" altura={280}>
-                <AreaChart data={r.price} margin={{ top: 8, right: 12, bottom: 8, left: 4 }}>
-                  <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" />
-                  <XAxis dataKey="mes" />
-                  <YAxis domain={[0, maxParcela]} tickFormatter={(y: number) => brl0(y)} width={76} />
-                  <Tooltip formatter={(valor, nome) => [brl(Number(valor)), String(nome)]} labelFormatter={(m) => `Mês ${m}`} />
-                  <Area dataKey="amortizacao" name="Amortização" stackId="1" stroke={CORES.roxo} fill={CORES.roxo} fillOpacity={0.85} isAnimationActive={false} />
-                  <Area dataKey="juros" name="Juros" stackId="1" stroke={CORES.roxoClaro} fill={CORES.roxoClaro} fillOpacity={0.9} isAnimationActive={false} />
-                </AreaChart>
+              <Grafico titulo="Price: composição de cada parcela" descricao="Barras empilhadas de amortização e juros por mês na Price" altura={300}>
+                <ComposicaoParcela dados={r.price} cor={CORES.roxo} corClara={CORES.roxoClaro} maximo={maxParcela} />
               </Grafico>
             </div>
 

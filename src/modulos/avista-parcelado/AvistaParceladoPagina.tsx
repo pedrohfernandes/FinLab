@@ -47,9 +47,9 @@ export default function AvistaParceladoPagina() {
 
   const parametros = (
     <>
-      <CampoNumerico rotulo="Preço à vista" unidade="R$" valor={v.avista} min={0.01} onChange={(avista) => definir({ avista })} />
+      <CampoNumerico rotulo="Preço à vista" moeda unidade="R$" valor={v.avista} min={0.01} onChange={(avista) => definir({ avista })} />
       <CampoNumerico rotulo="Número de parcelas" valor={v.n} min={1} max={120} onChange={(n) => definir({ n: Math.round(n) })} />
-      <CampoNumerico rotulo="Valor de cada parcela" unidade="R$" valor={v.parcela} min={0.01} onChange={(parcela) => definir({ parcela })} />
+      <CampoNumerico rotulo="Valor de cada parcela" moeda unidade="R$" valor={v.parcela} min={0.01} onChange={(parcela) => definir({ parcela })} />
       <CampoCaixa rotulo="A 1ª parcela é paga no ato (entrada)" marcado={v.antecipada} onChange={(antecipada) => definir({ antecipada })} />
       <CampoNumerico
         rotulo="Rendimento da aplicação (bruto)"
@@ -114,6 +114,16 @@ export default function AvistaParceladoPagina() {
             <Grafico
               titulo="Quanto valem as parcelas hoje, conforme a taxa de desconto"
               descricao="Curva do valor presente das parcelas em função da taxa. Onde ela cruza o preço à vista está a taxa embutida no parcelamento."
+              nota={
+                <>
+                  <strong>Linha vermelha:</strong> taxa embutida, onde as parcelas valem o preço à vista.
+                  <br />
+                  <strong>Ponto roxo:</strong> as parcelas descontadas ao seu rendimento valem {brl(r.vpParcelas)}.{' '}
+                  {r.avistaMelhor
+                    ? 'Acima do preço à vista, pagar à vista compensa.'
+                    : 'Abaixo do preço à vista, parcelar compensa.'}
+                </>
+              }
             >
               <LineChart data={r.curva} margin={{ top: 16, right: 24, bottom: 24, left: 8 }}>
                 <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" />
@@ -131,8 +141,8 @@ export default function AvistaParceladoPagina() {
                 />
                 <Line dataKey="vp" name="Valor presente das parcelas" stroke={CORES.verde} strokeWidth={3} dot={false} isAnimationActive={false} />
                 <ReferenceLine y={entrada.precoAvista} stroke={CORES.laranja} strokeDasharray="6 4" label={{ value: 'Preço à vista', fill: CORES.laranja, position: 'insideTopRight' }} />
-                <ReferenceLine x={r.taxaImplicita * 100} stroke={CORES.vermelho} label={{ value: 'Taxa embutida', fill: CORES.vermelho, position: 'insideTopLeft' }} />
-                <ReferenceDot x={r.taxaLiquidaMensal * 100} y={r.vpParcelas} r={7} fill={CORES.roxo} stroke="#fff" label={{ value: 'Seu rendimento', fill: CORES.roxo, position: 'top' }} />
+                <ReferenceLine x={r.taxaImplicita * 100} stroke={CORES.vermelho} label={{ value: `Taxa embutida: ${numeroBr(r.taxaImplicita * 100, 2)}% a.m.`, fill: CORES.vermelho, position: 'insideTopLeft' }} />
+                <ReferenceDot x={r.taxaLiquidaMensal * 100} y={r.vpParcelas} r={7} fill={CORES.roxo} stroke="#fff" label={{ value: `Seu rendimento: ${numeroBr(r.taxaLiquidaMensal * 100, 2)}% a.m.`, fill: CORES.roxo, position: 'right' }} />
               </LineChart>
             </Grafico>
 

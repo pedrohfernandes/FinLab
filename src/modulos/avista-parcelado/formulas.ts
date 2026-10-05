@@ -1,5 +1,5 @@
 import type { PassoFormula } from '../../componentes/Formula';
-import { brlTex, numeroTex, percentualTex } from '../../utils/formatacao';
+import { brlTex, numeroBr, numeroTex, percentual, percentualTex } from '../../utils/formatacao';
 import type { EntradaAvistaParcelado, ResultadoAvistaParcelado } from './calculo';
 
 /** Fórmulas do módulo, já com os números informados pelo usuário. */
@@ -32,7 +32,7 @@ export function formulasAvistaParcelado(e: EntradaAvistaParcelado, r: ResultadoA
       tex: `i \\approx ${percentualTex(r.taxaImplicita, 4)}\\ \\text{a.m.} \\quad\\Rightarrow\\quad (1+i)^{12}-1 \\approx ${percentualTex(r.taxaImplicitaAnual)}\\ \\text{a.a.}`,
     },
     {
-      descricao: `Quanto a sua aplicação rende por mês, já descontado o IR (prazo médio de ${m} meses, alíquota de ${ir}):`,
+      descricao: `Quanto a sua aplicação rende por mês, já descontado o IR (prazo médio de ${numeroBr(r.prazoMedioMeses, 1)} meses, alíquota de ${percentual(r.aliquotaIr, 1)}):`,
       tex: `r = \\left[\\,1 + \\left((1+${rend})^{${m}/12}-1\\right)(1-${ir})\\,\\right]^{1/${m}} - 1 = ${rl}\\ \\text{a.m.}`,
     },
     {

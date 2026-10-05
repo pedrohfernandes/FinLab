@@ -15,10 +15,9 @@ export default function Sobre() {
       <section className="fl-bloco">
         <h2>Objetivo</h2>
         <p>
-          Ensinar o <strong>valor do dinheiro no tempo</strong> a partir de decisões financeiras reais do brasileiro. É o trabalho 1 da
-          disciplina de Administração Financeira (CAD 167, UFMG, 2º semestre de 2026), desenvolvido por uma dupla de Sistemas de Informação e
-          Matemática. O conteúdo segue os capítulos 4 (VPL e valor do dinheiro no tempo) e 5 (taxas de juros) de <em>Fundamentos de Finanças
-          Empresariais</em>, de Berk, DeMarzo e Harford.
+          Ensinar o <strong>valor do dinheiro no tempo</strong> a partir de decisões financeiras reais do brasileiro. Trabalho 1 da
+          disciplina de Administração Financeira (CAD 167, UFMG, 2º semestre de 2026). O conteúdo segue os capítulos 4 (VPL e valor do
+          dinheiro no tempo) e 5 (taxas de juros) de <em>Fundamentos de Finanças Empresariais</em>, de Berk, DeMarzo e Harford.
         </p>
       </section>
 

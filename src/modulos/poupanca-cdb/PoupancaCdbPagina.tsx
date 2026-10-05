@@ -45,7 +45,7 @@ export default function PoupancaCdbPagina() {
 
   const parametros = (
     <>
-      <CampoNumerico rotulo="Valor aplicado" unidade="R$" valor={v.valor} min={0.01} onChange={(valor) => definir({ valor })} />
+      <CampoNumerico rotulo="Valor aplicado" moeda unidade="R$" valor={v.valor} min={0.01} onChange={(valor) => definir({ valor })} />
       <CampoNumerico rotulo="Prazo" unidade="meses" valor={v.prazo} min={1} max={PRAZO_MAXIMO_MESES} onChange={(prazo) => definir({ prazo: Math.round(prazo) })} />
       <CampoNumerico
         rotulo="Rendimento do CDB"
@@ -106,7 +106,7 @@ export default function PoupancaCdbPagina() {
               O CDB só perde se pagar menos de {numeroBr(r.multiploCdiDeEmpate * 100, 1)}% do CDI.
             </Veredito>
 
-            <GradeKpis>
+            <GradeKpis umaLinha>
               <CartaoKpi
                 rotulo="Poupança"
                 valor={`${percentual(r.poupancaMensal, 4)} a.m.`}
@@ -130,6 +130,7 @@ export default function PoupancaCdbPagina() {
             <Grafico
               titulo="Evolução do dinheiro mês a mês"
               descricao="Saldo da poupança, do CDB bruto, do CDB líquido de imposto e a linha da inflação"
+              nota="A linha pontilhada mostra quanto o dinheiro precisaria valer só para manter o poder de compra. Acima dela, há ganho real; abaixo, o saldo cresce, mas compra menos."
             >
               <LineChart data={r.evolucao} margin={{ top: 8, right: 16, bottom: 20, left: 4 }}>
                 <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" />
@@ -140,7 +141,7 @@ export default function PoupancaCdbPagina() {
                 <Line dataKey="poupanca" name="Poupança" stroke={CORES.verde} strokeWidth={3} dot={false} isAnimationActive={false} />
                 <Line dataKey="cdbLiquido" name="CDB líquido de IR" stroke={CORES.roxo} strokeWidth={3} dot={false} isAnimationActive={false} />
                 <Line dataKey="cdbBruto" name="CDB bruto" stroke={CORES.roxoClaro} strokeWidth={2} strokeDasharray="6 4" dot={false} isAnimationActive={false} />
-                <Line dataKey="inflacao" name="Só para acompanhar a inflação" stroke={CORES.cinza} strokeWidth={2} strokeDasharray="2 4" dot={false} isAnimationActive={false} />
+                <Line dataKey="inflacao" name="Valor corrigido pela inflação (IPCA)" stroke={CORES.cinza} strokeWidth={2} strokeDasharray="2 4" dot={false} isAnimationActive={false} />
               </LineChart>
             </Grafico>
 

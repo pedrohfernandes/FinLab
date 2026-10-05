@@ -1,5 +1,5 @@
 import type { PassoFormula } from '../../componentes/Formula';
-import { brlTex, numeroTex, percentualTex } from '../../utils/formatacao';
+import { brlTex, numeroTex, percentual, percentualTex } from '../../utils/formatacao';
 import type { EntradaPoupancaCdb, ResultadoPoupancaCdb } from './calculo';
 
 /** Fórmulas do módulo, já com os números usados na simulação. */
@@ -9,11 +9,11 @@ export function formulasPoupancaCdb(e: EntradaPoupancaCdb, r: ResultadoPoupancaC
   const base =
     r.regime === 'selic-alta'
       ? {
-          descricao: `A Selic (${percentualTex(e.selic)}) está acima de 8,5% ao ano, então a poupança rende 0,5% ao mês mais a TR, compostos:`,
+          descricao: `A Selic (${percentual(e.selic)}) está acima de 8,5% ao ano, então a poupança rende 0,5% ao mês mais a TR, compostos:`,
           tex: `p = (1 + 0{,}5\\%)\\,(1 + ${percentualTex(e.tr, 4)}) - 1 = ${percentualTex(r.poupancaMensal, 4)}\\ \\text{a.m.}`,
         }
       : {
-          descricao: `A Selic (${percentualTex(e.selic)}) está em 8,5% ao ano ou menos, então a poupança rende 70% da Selic (convertida em taxa mensal equivalente) mais a TR:`,
+          descricao: `A Selic (${percentual(e.selic)}) está em 8,5% ao ano ou menos, então a poupança rende 70% da Selic (convertida em taxa mensal equivalente) mais a TR:`,
           tex: `p = \\left[(1 + 0{,}7\\cdot ${percentualTex(e.selic)})^{1/12}\\right]\\,(1 + ${percentualTex(e.tr, 4)}) - 1 = ${percentualTex(r.poupancaMensal, 4)}\\ \\text{a.m.}`,
         };
 
@@ -28,7 +28,7 @@ export function formulasPoupancaCdb(e: EntradaPoupancaCdb, r: ResultadoPoupancaC
       tex: `S_{poup} = ${v}\\cdot(1+${percentualTex(r.poupancaMensal, 4)})^{${n}} = ${brlTex(r.saldoFinal.poupanca)} \\qquad S_{CDB}^{bruto} = ${v}\\cdot(1+${percentualTex(r.cdbMensalBruto, 4)})^{${n}} = ${brlTex(r.saldoFinal.cdbBruto)}`,
     },
     {
-      descricao: `O Imposto de Renda do CDB (alíquota de ${percentualTex(r.aliquotaIr, 1)} para ${n * 30} dias) incide só sobre o rendimento:`,
+      descricao: `O Imposto de Renda do CDB (alíquota de ${percentual(r.aliquotaIr, 1)} para ${n * 30} dias) incide só sobre o rendimento:`,
       tex: `S_{CDB}^{liq} = V + (S_{CDB}^{bruto} - V)(1 - ${percentualTex(r.aliquotaIr, 1)}) = ${brlTex(r.saldoFinal.cdbLiquido)}`,
     },
     {

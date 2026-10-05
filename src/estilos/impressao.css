@@ -4,8 +4,31 @@
 }
 
 @media print {
+  /* Cabeçalho e rodapé desenhados pelo CSS nas margens da página. Os textos variáveis
+     (módulo e data) vêm de variáveis CSS preenchidas pelo ModuloLayout antes de imprimir. */
   @page {
-    margin: 14mm;
+    margin: 18mm 16mm;
+
+    @top-left {
+      content: var(--rel-titulo, 'FinLab');
+      font-family: var(--fonte);
+      font-size: 10px;
+      color: #333;
+    }
+
+    @top-right {
+      content: var(--rel-data, '');
+      font-family: var(--fonte);
+      font-size: 10px;
+      color: #333;
+    }
+
+    @bottom-right {
+      content: 'Página ' counter(page) ' de ' counter(pages);
+      font-family: var(--fonte);
+      font-size: 10px;
+      color: #333;
+    }
   }
 
   body {

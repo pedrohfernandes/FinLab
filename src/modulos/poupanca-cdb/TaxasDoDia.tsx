@@ -90,6 +90,7 @@ export function TaxasDoDia() {
       <Grafico
         titulo="Dois anos de taxas no Brasil"
         descricao="Linhas mensais de Selic, CDI, IPCA em 12 meses e juro real"
+        fonte="Banco Central do Brasil (SGS) e IBGE. Juro real calculado pelo FinLab (Fisher)."
       >
         <LineChart data={historico} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
           <CartesianGrid stroke={CORES.grade} strokeDasharray="3 3" />
