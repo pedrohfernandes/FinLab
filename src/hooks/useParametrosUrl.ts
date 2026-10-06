@@ -1,3 +1,6 @@
+/**
+ * Sincroniza os parâmetros editados de uma simulação com a URL (base do link compartilhável).
+ */
 import { useSearchParams } from 'react-router-dom';
 
 type Valor = number | string | boolean;

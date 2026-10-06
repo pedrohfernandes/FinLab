@@ -1,3 +1,7 @@
+/**
+ * Parte 1 do Módulo 0: cartões que explicam cada taxa do Banco Central e o gráfico
+ * de histórico com o juro real.
+ */
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { Grafico } from '../../componentes/Resultados';
 import { Termo } from '../../componentes/Termo';

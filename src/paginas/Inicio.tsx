@@ -1,3 +1,6 @@
+/**
+ * Página inicial: apresentação do projeto e trilha com os módulos.
+ */
 import { Link } from 'react-router-dom';
 import { MODULOS } from '../app/modulos';
 import { useTituloPagina } from '../hooks/useTituloPagina';

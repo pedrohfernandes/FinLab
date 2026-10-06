@@ -1,3 +1,6 @@
+/**
+ * Texto da aba Explicação do Módulo 0: muda conforme o resultado da simulação.
+ */
 import { Termo } from '../../componentes/Termo';
 import { brl, numeroBr, percentual } from '../../utils/formatacao';
 import type { EntradaPoupancaCdb, ResultadoPoupancaCdb } from './calculo';

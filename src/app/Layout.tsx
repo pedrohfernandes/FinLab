@@ -1,3 +1,6 @@
+/**
+ * Estrutura comum a todas as páginas: topo com navegação e faixa de taxas, conteúdo da rota e rodapé.
+ */
 import { useEffect } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { FaixaTaxas } from '../componentes/StatusDados';
@@ -41,6 +44,7 @@ export default function Layout() {
             Sobre
           </NavLink>
         </div>
+        {/* Taxas do dia e origem dos dados ficam no topo de todas as páginas. */}
         <FaixaTaxas />
       </header>
 

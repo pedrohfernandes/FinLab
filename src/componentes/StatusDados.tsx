@@ -1,3 +1,6 @@
+/**
+ * Mostra de onde vieram as taxas (ao vivo, cache ou offline) e a faixa de taxas do topo.
+ */
 import { useTaxas } from '../dados/TaxasContext';
 import { dataBr, dataHoraBr } from '../utils/formatacao';
 

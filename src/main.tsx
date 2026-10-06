@@ -1,3 +1,6 @@
+/**
+ * Ponto de entrada: monta o aplicativo na <div id="raiz"> do index.html e carrega os estilos globais.
+ */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './app/App';

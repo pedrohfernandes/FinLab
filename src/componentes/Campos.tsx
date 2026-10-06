@@ -1,3 +1,6 @@
+/**
+ * Campos dos parâmetros das simulações: número (com máscara de reais), seleção e caixa de marcação.
+ */
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 
 /** Texto para edição: vírgula decimal, sem separador de milhar. */

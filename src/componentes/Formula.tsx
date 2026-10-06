@@ -1,6 +1,9 @@
-import { useMemo, type ReactNode } from 'react';
-import katex from 'katex';
-import 'katex/dist/katex.min.css';
+/**
+ * Utiliza LaTeX para exibição de fórmulas matemáticas.
+ */
+import { useMemo, type ReactNode } from "react";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 interface FormulaProps {
   /** Expressão em LaTeX. */
@@ -12,10 +15,20 @@ interface FormulaProps {
 /** Renderiza uma expressão LaTeX com KaTeX. */
 export function Formula({ tex, bloco = true }: FormulaProps) {
   const html = useMemo(
-    () => katex.renderToString(tex, { displayMode: bloco, throwOnError: false, output: 'htmlAndMathml' }),
+    () =>
+      katex.renderToString(tex, {
+        displayMode: bloco,
+        throwOnError: false,
+        output: "htmlAndMathml",
+      }),
     [tex, bloco],
   );
-  return <span className={bloco ? 'fl-formula fl-formula--bloco' : 'fl-formula'} dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <span
+      className={bloco ? "fl-formula fl-formula--bloco" : "fl-formula"}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 }
 
 export interface PassoFormula {

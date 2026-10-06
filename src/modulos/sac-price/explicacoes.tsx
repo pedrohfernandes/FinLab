@@ -1,3 +1,6 @@
+/**
+ * Texto da aba Explicação do Módulo 2: muda conforme o resultado da simulação.
+ */
 import { Termo } from '../../componentes/Termo';
 import { anualParaMensal } from '../../financas/taxas';
 import { brl, percentual } from '../../utils/formatacao';

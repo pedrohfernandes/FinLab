@@ -1,3 +1,6 @@
+/**
+ * Botões de saída de cada módulo: relatório em PDF, tabela em CSV e link da simulação.
+ */
 import { useState } from 'react';
 import { baixarCsv, type TabelaCsv } from '../utils/csv';
 

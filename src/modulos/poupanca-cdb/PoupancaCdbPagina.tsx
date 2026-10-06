@@ -1,3 +1,7 @@
+/**
+ * Página do Módulo 0 — Poupança ou CDB?: parâmetros, resultados e abas didáticas.
+ * Só interface; os cálculos ficam em calculo.ts.
+ */
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { AcoesRelatorio } from '../../componentes/AcoesRelatorio';
 import { CampoNumerico } from '../../componentes/Campos';
@@ -36,6 +40,7 @@ export default function PoupancaCdbPagina() {
     tr: v.tr / 100,
     ipca12m: v.ipca / 100,
   };
+  // Entrada inválida: não calcula, e a tela mostra a mensagem de erro no lugar dos resultados.
   const erro = validarEntrada(entrada);
   const r = erro ? null : calcularPoupancaCdb(entrada);
 

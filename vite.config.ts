@@ -1,3 +1,6 @@
+/**
+ * Configuração do Vite (build e servidor de desenvolvimento) e do Vitest (testes).
+ */
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 

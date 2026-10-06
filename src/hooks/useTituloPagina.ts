@@ -1,3 +1,6 @@
+/**
+ * Título da aba do navegador (e nome sugerido do PDF) em cada página, no formato "FinLab - Título".
+ */
 import { useEffect } from 'react';
 
 /**

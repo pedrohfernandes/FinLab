@@ -1,3 +1,7 @@
+/**
+ * Página do Módulo 2 — SAC ou Price?: parâmetros, resultados e abas didáticas.
+ * Só interface; os cálculos ficam em calculo.ts.
+ */
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { AcoesRelatorio } from '../../componentes/AcoesRelatorio';
 import { CampoNumerico, CampoSelecao } from '../../componentes/Campos';
@@ -82,6 +86,7 @@ export default function SacPricePagina() {
     prazo: Math.round(v.prazo),
     custoOportunidadeAnual: v.oportunidade / 100,
   };
+  // Entrada inválida: não calcula, e a tela mostra a mensagem de erro no lugar dos resultados.
   const erro = validarEntrada(entrada);
   const r = erro ? null : calcularSacPrice(entrada);
 

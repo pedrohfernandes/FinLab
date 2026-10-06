@@ -1,3 +1,7 @@
+/**
+ * Blocos de apresentação reutilizados pelos módulos: indicadores, veredito, gráfico,
+ * abas didáticas, tabela e frase "Para levar".
+ */
 import { useId, useState, type ReactElement, type ReactNode } from 'react';
 import { ResponsiveContainer } from 'recharts';
 
@@ -61,6 +65,7 @@ export function Grafico({
   return (
     <figure className="fl-grafico" aria-label={descricao ?? titulo}>
       <figcaption>{titulo}</figcaption>
+      {/* O ResponsiveContainer ocupa 100% do pai, então o pai precisa de uma altura definida. */}
       <div style={{ height: altura }}>
         <ResponsiveContainer width="100%" height="100%">
           {children}
@@ -112,6 +117,7 @@ export function AbasDidaticas({ abas }: { abas: Aba[] }) {
           hidden={ativa !== aba.id}
           className="fl-painel"
         >
+          {/* Na impressão a barra de abas some; este título identifica cada bloco no PDF. */}
           <h3 className="fl-so-impressao">{aba.rotulo}</h3>
           {aba.conteudo}
         </div>

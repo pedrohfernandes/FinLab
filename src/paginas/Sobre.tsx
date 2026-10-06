@@ -1,3 +1,6 @@
+/**
+ * Página Sobre: objetivo, origem dos dados, simplificações assumidas e confiabilidade dos cálculos.
+ */
 import { SERIES } from '../dados/series';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 

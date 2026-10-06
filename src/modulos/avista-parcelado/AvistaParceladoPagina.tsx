@@ -1,3 +1,7 @@
+/**
+ * Página do Módulo 1 — À vista ou parcelado?: parâmetros, resultados e abas didáticas.
+ * Só interface; os cálculos ficam em calculo.ts.
+ */
 import { CartesianGrid, Line, LineChart, ReferenceDot, ReferenceLine, Tooltip, XAxis, YAxis } from 'recharts';
 import { AcoesRelatorio } from '../../componentes/AcoesRelatorio';
 import { CampoCaixa, CampoNumerico } from '../../componentes/Campos';
@@ -42,6 +46,7 @@ export default function AvistaParceladoPagina() {
     rendimentoBrutoAnual: v.rendimento / 100,
     isento: v.isento,
   };
+  // Entrada inválida: não calcula, e a tela mostra a mensagem de erro no lugar dos resultados.
   const erro = validarEntrada(entrada);
   const r = erro ? null : calcularAvistaParcelado(entrada);
 

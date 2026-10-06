@@ -1,3 +1,6 @@
+/**
+ * Raiz da aplicação: entrega as taxas do Banco Central a todas as páginas e define as rotas.
+ */
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { TaxasProvider } from '../dados/TaxasContext';
 import AvistaParceladoPagina from '../modulos/avista-parcelado/AvistaParceladoPagina';

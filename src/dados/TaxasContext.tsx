@@ -1,3 +1,7 @@
+/**
+ * Entrega as taxas do Banco Central a todo o aplicativo e decide de onde elas vêm
+ * (cache, consulta ao vivo ou cópia offline).
+ */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { carregarTaxasDoBcb } from './bcb';
 import { cacheEstaValido, lerCache, salvarCache } from './cache';
@@ -22,6 +26,7 @@ const TaxasContext = createContext<TaxasEstado | null>(null);
  *   3. falhou? cache antigo ou snapshot versionado no repositório → "offline"
  */
 export function TaxasProvider({ children }: { children: ReactNode }) {
+  // Começa na cópia offline para a tela nunca ficar vazia enquanto a consulta ao BC não termina.
   const [dados, setDados] = useState<DadosTaxas>(snapshot as DadosTaxas);
   const [origem, setOrigem] = useState<OrigemDados>('offline');
   const [carregando, setCarregando] = useState(true);

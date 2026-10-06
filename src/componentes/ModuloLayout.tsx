@@ -1,3 +1,7 @@
+/**
+ * Moldura comum das páginas de módulo: pergunta e situação no topo, parâmetros à esquerda,
+ * resultados à direita e cabeçalho do relatório impresso.
+ */
 import { useEffect, type ReactNode } from 'react';
 import { useTaxas } from '../dados/TaxasContext';
 import { useTituloPagina } from '../hooks/useTituloPagina';

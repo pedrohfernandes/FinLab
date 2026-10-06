@@ -1,3 +1,6 @@
+/**
+ * Tipos dos dados de taxas, compartilhados pela captura de dados e pelos módulos.
+ */
 /** Um valor de uma série do Banco Central em uma data. */
 export interface Ponto {
   /** Data no formato ISO (aaaa-mm-dd). */

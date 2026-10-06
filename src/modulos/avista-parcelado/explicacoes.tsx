@@ -1,3 +1,6 @@
+/**
+ * Texto da aba Explicação do Módulo 1: muda conforme o resultado da simulação.
+ */
 import { Termo } from '../../componentes/Termo';
 import { brl, meses, percentual } from '../../utils/formatacao';
 import type { EntradaAvistaParcelado, ResultadoAvistaParcelado } from './calculo';
