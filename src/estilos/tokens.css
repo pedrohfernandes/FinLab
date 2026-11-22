@@ -14,8 +14,8 @@
   --vermelho: #b14e4e;
   --raio: 14px;
   --largura: none;
-  /* margem lateral: 25% da largura da tela, dividida entre os dois lados (12,5% cada) */
-  --margem: 12.5vw;
+  /* margem lateral do conteúdo: 5% da largura da tela de cada lado */
+  --margem: 5vw;
   --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --fonte-titulo: 'Segoe UI Semibold', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
 }

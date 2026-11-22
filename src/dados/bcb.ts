@@ -43,11 +43,30 @@ export async function buscarSerie(
   timeoutMs = TIMEOUT_PADRAO_MS,
 ): Promise<Ponto[]> {
   const url = `${URL_BASE}.${codigo}/dados?formato=json&dataInicial=${paraBcb(inicio)}&dataFinal=${paraBcb(fim)}`;
+  try {
+    return await consultar(url, codigo, timeoutMs, "default");
+  } catch (erro) {
+    // A API do BC às vezes responde com erro passageiro (ex.: 304 com corpo vazio
+    // sem que tenhamos pedido cache). Uma segunda tentativa, sem cache, costuma
+    // funcionar. Se o problema foi tempo esgotado, não insiste: o BC está lento ou
+    // fora do ar, e o chamador já tem o plano B (cache ou cópia offline).
+    if (erro instanceof Error && erro.name === "AbortError") throw erro;
+    return consultar(url, codigo, timeoutMs, "no-store");
+  }
+}
+
+/** Uma requisição à API do BC, com tempo limite e validação da resposta. */
+async function consultar(
+  url: string,
+  codigo: number,
+  timeoutMs: number,
+  cache: RequestCache,
+): Promise<Ponto[]> {
   const controle = new AbortController();
   const temporizador = setTimeout(() => controle.abort(), timeoutMs);
 
   try {
-    const resposta = await fetch(url, { signal: controle.signal });
+    const resposta = await fetch(url, { signal: controle.signal, cache });
     if (!resposta.ok)
       throw new Error(
         `BCB respondeu ${resposta.status} para a série ${codigo}`,
@@ -72,6 +91,32 @@ export function mensalizar(pontos: Ponto[]): Ponto[] {
   const porMes = new Map<string, Ponto>();
   for (const p of pontos) porMes.set(p.data.slice(0, 7), p); // o último sobrescreve
   return [...porMes.values()];
+}
+
+/**
+ * CDI acumulado em cada mês (série 4391, % a.m.), de `primeiroMes` a `ultimoMes`
+ * (formato "aaaa-mm"). Devolve um mapa "aaaa-mm" → valor em %.
+ * É a taxa livre de risco mensal dos Módulos 3 e 4.
+ */
+export async function buscarCdiMensal(
+  primeiroMes: string,
+  ultimoMes: string,
+  timeoutMs = TIMEOUT_PADRAO_MS,
+): Promise<Map<string, number>> {
+  const [anoI, mesI] = primeiroMes.split("-").map(Number);
+  const [anoF, mesF] = ultimoMes.split("-").map(Number);
+  // Série mensal: cada valor vem datado no dia 1º do mês a que se refere.
+  const pontos = await buscarSerie(
+    SERIES.cdiMensal.codigo,
+    new Date(anoI, mesI - 1, 1),
+    new Date(anoF, mesF - 1, 1),
+    timeoutMs,
+  );
+  return new Map(
+    pontos
+      .filter((p) => Number.isFinite(p.valor))
+      .map((p) => [p.data.slice(0, 7), p.valor]),
+  );
 }
 
 /** Subtrai meses de uma data, mantendo o dia. */

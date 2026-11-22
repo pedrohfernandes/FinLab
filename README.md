@@ -2,7 +2,10 @@
 
 **Simuladores de valor do dinheiro no tempo com dados do Banco Central.**
 
-Trabalho 1 de Administração Financeira (CAD 167 · UFMG · 2º semestre de 2026).
+Trabalhos 1 e 2 de Administração Financeira (CAD 167 · UFMG · 2º semestre de 2026).
+
+- **Trabalho 1 — Valor do dinheiro no tempo:** Módulos 0, 1 e 2.
+- **Trabalho 2 — Gestão de investimentos:** Módulos 3 e 4 (risco sistemático, beta, CAPM e diversificação).
 
 **Autores:** Mariana Sampaio e Pedro Fernandes.
 
@@ -16,6 +19,8 @@ Ensinar o **valor do dinheiro no tempo** a partir de decisões financeiras reais
 
 O conteúdo utiliza como base os capítulos 4 (VPL e valor do dinheiro no tempo) e 5 (taxas de juros) de _Fundamentos de Finanças Empresariais_, de Berk, DeMarzo e Harford.
 
+No **Trabalho 2**, o tema é **gestão de investimentos**: medir o risco de ações reais da B3, separar o risco que a diversificação elimina do que ela não elimina e calcular o retorno exigido pelo CAPM, conforme o capítulo 11 (Risco sistemático e prêmio de risco em ações) do mesmo livro.
+
 ## Módulos
 
 | Módulo | Pergunta              | Conteúdo da disciplina                                                                              |
@@ -23,14 +28,18 @@ O conteúdo utiliza como base os capítulos 4 (VPL e valor do dinheiro no tempo)
 | 0      | Poupança ou CDB?      | Taxas de juros (Selic, CDI, IPCA, TR), taxa equivalente, IR regressivo, taxa real (Fisher) — Cap. 5 |
 | 1      | À vista ou parcelado? | Valor presente, anuidade (soma de PG), taxa implícita por Newton-Raphson — Caps. 4 e 5              |
 | 2      | SAC ou Price?         | PA e PG, tabela de amortização, equivalência em valor presente — Cap. 5                             |
+| 3      | Quanto risco essa ação carrega? | Retorno em excesso, beta por regressão linear, risco sistemático × específico, CAPM e SML — Cap. 11.3–11.4 |
+| 4      | Diversificar reduz o risco?     | Retorno esperado e variância de carteiras, correlação, beta da carteira, carteiras aleatórias — Cap. 11.1–11.3 |
 
-Os módulos formam uma trilha: o Módulo 0 explica as taxas e o "custo do dinheiro" que os outros dois usam. Mas qualquer um pode ser aberto diretamente.
+Os módulos 0 a 2 formam uma trilha: o Módulo 0 explica as taxas e o "custo do dinheiro" que os outros dois usam. Os módulos 3 e 4 formam a segunda trilha: o 3 mede o risco de uma ação isolada e o 4 mostra o que acontece com esse risco numa carteira. Qualquer módulo pode ser aberto diretamente.
 
 ### O que cada módulo mostra
 
 - **Módulo 0 — Poupança ou CDB?** Explica cada taxa buscada no Banco Central (Selic, CDI, IPCA, TR e poupança), com histórico de dois anos e o **juro real** calculado pela equação de Fisher; Compara o rendimento da poupança (regra legal) com um CDB de X% do CDI, já descontado o Imposto de Renda regressivo e a inflação, e informa a partir de quantos % do CDI o CDB passa a compensar.
 - **Módulo 1 — À vista ou parcelado?** Descobre a **taxa de juros escondida** no "parcelado sem juros" pelo método de Newton-Raphson e a compara com o que o dinheiro renderia aplicado, para dizer se compensa pagar à vista.
 - **Módulo 2 — SAC ou Price?** Compara os dois sistemas de amortização (parcelas, juros, saldo devedor) e mostra por que "pagar menos juros" não significa "ser mais barato": em valor presente, descontado pela taxa do contrato, os dois valem o mesmo.
+- **Módulo 3 — Quanto risco essa ação carrega?** Estima o **beta** de uma das 10 ações do catálogo (ou de qualquer ação, enviando um CSV) pela regressão de 5 anos de retornos mensais em excesso contra o Ibovespa, com intervalo de confiança. Separa o risco em **sistemático** (R²) e **específico**, desenha a **Linha do Mercado de Títulos** e calcula o **retorno exigido pelo CAPM**. Mostra também o prêmio de mercado que de fato ocorreu no período (negativo em 2021–2026) e explica por que ele não serve como expectativa.
+- **Módulo 4 — Diversificar reduz o risco?** Monta uma carteira com pesos escolhidos e calcula retorno esperado, **volatilidade com as correlações** e **beta da carteira**. Compara com a volatilidade "sem diversificação", desenha **1.500 carteiras aleatórias** (como no slide 11.4) e a curva que mostra o risco caindo com o número de ações até o **piso do risco sistemático**.
 
 ## Funcionalidades
 
@@ -86,6 +95,7 @@ Abra o endereço mostrado no terminal (normalmente <http://localhost:5173>). A p
 | `npm run preview`         | Serve a pasta `dist/` localmente                                                |
 | `npm test`                | Roda os testes do domínio financeiro                                            |
 | `npm run atualizar-dados` | Consulta o Banco Central e atualiza a cópia offline (`src/dados/snapshot.json`) |
+| `npm run atualizar-cotacoes` | Baixa 5 anos de preços mensais das ações e do Ibovespa (Yahoo Finance) e o CDI mensal (Banco Central) para `src/dados/cotacoes.json` |
 
 ## Captura de dados
 
@@ -115,6 +125,19 @@ Detalhes do tratamento:
 - Para o gráfico de histórico, cada série é reduzida a **um ponto por mês** (o último do mês).
 - O botão **Atualizar** ignora o cache e consulta o Banco Central de novo.
 - Para renovar a cópia offline, rode `npm run atualizar-dados` e envie o `snapshot.json` atualizado.
+
+### Preços de ações (Módulos 3 e 4)
+
+| Dado | Fonte | Como é capturado |
+| --- | --- | --- |
+| Preços mensais de 10 ações (PETR4, VALE3, ITUB4, BBAS3, WEGE3, ABEV3, B3SA3, SUZB3, TAEE11, MGLU3) e do Ibovespa | Yahoo Finance | Script `npm run atualizar-cotacoes`, gravado em `src/dados/cotacoes.json` |
+| CDI acumulado no mês (taxa livre de risco mensal) | Banco Central, série SGS **4391** | Ao vivo no navegador; cópia em `cotacoes.json` se a consulta falhar |
+
+- São **61 preços mensais** (60 retornos = "5 anos de retornos mensais", como indica o slide 11.3), terminando no último mês completo. O mês corrente fica de fora.
+- O preço de cada mês é o **fechamento ajustado** do último pregão (já incorpora dividendos, JCP e desdobramentos), então a variação mensal é o retorno total do acionista.
+- O Yahoo Finance **não libera acesso direto pelo navegador** (CORS). Por isso os preços são capturados pelo script (Node) e versionados no repositório. A data da captura aparece no topo dos Módulos 3 e 4.
+- O script confere se todos os 61 meses existem para cada ação, para o Ibovespa e para o CDI. Se faltar algum, ele para com erro em vez de gravar dados incompletos.
+- **CSV de outra ação (Módulo 3):** aceita `data;preco` (Excel em português), `data,preco` ou o CSV exportado do Yahoo Finance (usa a coluna _Adj Close_). Preços diários são reduzidos ao último de cada mês, e a análise usa o trecho mais recente em comum com o Ibovespa. O arquivo é lido só no navegador.
 
 ## Exportação de relatórios
 
@@ -146,6 +169,8 @@ Baixa a tabela completa do cálculo, em formato que o **Excel em português abre
 | 0      | `finlab-poupanca-cdb.csv`            | Evolução mês a mês: poupança, CDB bruto, alíquota de IR, CDB líquido e inflação     |
 | 1      | `finlab-avista-parcelado-newton.csv` | Iterações do método de Newton-Raphson: estimativa da taxa, f(i) e f'(i)             |
 | 2      | `finlab-sac-price.csv`               | Tabela de amortização completa de SAC e Price (parcela, juros, amortização e saldo) |
+| 3      | `finlab-beta-<ação>.csv`             | Os 60 meses da regressão: retornos da ação, do Ibovespa e do CDI, excessos, valor previsto pela reta e erro |
+| 4      | `finlab-carteira.csv`                | Peso, beta, retorno esperado e volatilidade de cada ação, e a matriz de correlações |
 
 ## Link da simulação
 
@@ -166,14 +191,20 @@ O botão **Copiar link da simulação** copia o endereço da página com os par�
 | 0      | `valor`, `prazo`, `percentualCdi`, `selic`, `cdi`, `tr`, `ipca` |
 | 1      | `avista`, `n`, `parcela`, `antecipada`, `rendimento`, `isento`  |
 | 2      | `principal`, `taxa`, `tipoTaxa`, `prazo`, `oportunidade`        |
+| 3      | `acao`, `janela`, `rf`, `premio` (o CSV enviado não vai no link) |
+| 4      | `w_PETR4`, `w_VALE3`… (peso de cada ação em %), `base`, `rf`, `premio` |
 
 ## Estrutura do código
 
 ```
+scripts/          Captura de dados por linha de comando: taxas do BC (snapshot) e
+                  preços de ações do Yahoo Finance (cotações)
 src/
 ├── financas/     Matemática financeira pura, sem React. Cada função é comentada com
 │                 a fórmula e a referência ao capítulo. Testes em __tests__/.
-├── dados/        Captura de dados: cliente do Banco Central, cache e snapshot offline
+│                 Trabalho 2: estatistica.ts, capm.ts e carteira.ts.
+├── dados/        Captura de dados: cliente do Banco Central, cache, snapshot offline,
+│                 catálogo de ações e cotações
 ├── modulos/      Um diretório por módulo (cálculo, fórmulas, explicações e página)
 ├── componentes/  Componentes reutilizáveis (campos, abas, gráficos, fórmulas…)
 ├── hooks/        Parâmetros na URL e título da página
@@ -197,6 +228,8 @@ npm test
 ```
 
 Os testes cobrem a matemática financeira (`src/financas/__tests__/`) com casos de referência: os exemplos de SAC dos slides do Capítulo 5, a parcela da Price, a equivalência entre SAC e Price em valor presente, a taxa implícita por Newton-Raphson, a alíquota regressiva do IR nos limites de dias e a regra da poupança conferida com valores oficiais do Banco Central (outubro de 2026 e março de 2021).
+
+No Trabalho 2, os testes conferem a regressão linear com um exemplo calculado à mão, recuperam um beta conhecido (ação construída como 1,5 × mercado) e verificam as identidades do capítulo 11. A fórmula de 2 ações do slide 11.2 tem de bater com a fórmula geral com matriz de covariâncias, e o beta da série da carteira tem de ser igual à média ponderada dos betas (slide 11.3). Também são testadas a leitura dos formatos de CSV aceitos e o alinhamento do CSV com os meses do Ibovespa.
 
 ## Publicação no GitHub Pages
 

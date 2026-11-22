@@ -12,6 +12,30 @@ const ETAPAS = [
   { titulo: 'Relatório', texto: 'Gere um PDF da simulação, exporte as tabelas em CSV ou copie um link que reproduz o cenário.' },
 ];
 
+/** Cartões dos módulos de um dos trabalhos da disciplina. */
+function Trilha({ trabalho }: { trabalho: 1 | 2 }) {
+  return (
+    <div className="fl-trilha">
+      {MODULOS.filter((m) => m.trabalho === trabalho).map((m) => (
+        <Link key={m.caminho} to={m.caminho} className="fl-cartao-modulo">
+          <span className="fl-cartao-modulo-numero">Módulo {m.numero}</span>
+          <h3>{m.titulo}</h3>
+          <p>{m.resumo}</p>
+          <ul>
+            {m.conceitos.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ul>
+          <small>Conteúdo da disciplina: {m.capitulo}</small>
+          <span className="fl-cartao-modulo-seta" aria-hidden="true">
+            Abrir →
+          </span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export default function Inicio() {
   useTituloPagina('');
 
@@ -41,24 +65,16 @@ export default function Inicio() {
         <p className="fl-secao-intro">
           Os módulos têm uma ordem sugerida: o primeiro explica as taxas que os outros usam. Mas você pode abrir qualquer um.
         </p>
-        <div className="fl-trilha">
-          {MODULOS.map((m) => (
-            <Link key={m.caminho} to={m.caminho} className="fl-cartao-modulo">
-              <span className="fl-cartao-modulo-numero">Módulo {m.numero}</span>
-              <h3>{m.titulo}</h3>
-              <p>{m.resumo}</p>
-              <ul>
-                {m.conceitos.map((c) => (
-                  <li key={c}>{c}</li>
-                ))}
-              </ul>
-              <small>Conteúdo da disciplina: {m.capitulo}</small>
-              <span className="fl-cartao-modulo-seta" aria-hidden="true">
-                Abrir →
-              </span>
-            </Link>
-          ))}
-        </div>
+        <Trilha trabalho={1} />
+      </section>
+
+      <section className="fl-secao" aria-labelledby="titulo-investimentos">
+        <h2 id="titulo-investimentos">Gestão de investimentos: risco e retorno</h2>
+        <p className="fl-secao-intro">
+          Deixando a renda fixa para trás: quanto risco uma ação carrega, que retorno ela precisa oferecer por isso e como a diversificação reduz o
+          risco de uma carteira. Com 5 anos de preços reais de ações da B3 e do Ibovespa, e o CDI do Banco Central como taxa livre de risco.
+        </p>
+        <Trilha trabalho={2} />
       </section>
 
       <section className="fl-secao" aria-labelledby="titulo-como">

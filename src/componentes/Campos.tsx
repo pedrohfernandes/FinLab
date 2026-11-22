@@ -146,6 +146,38 @@ export function CampoSelecao<V extends string>({ rotulo, valor, opcoes, onChange
   );
 }
 
+interface CampoArquivoProps {
+  rotulo: string;
+  /** Tipos aceitos pelo seletor de arquivos (ex.: ".csv,.txt"). */
+  aceitar: string;
+  /** Recebe o nome e o conteúdo (texto) do arquivo escolhido. */
+  onCarregar: (nome: string, conteudo: string) => void;
+  dica?: ReactNode;
+  erro?: string | null;
+}
+
+/** Seletor de arquivo de texto (o arquivo é lido no próprio navegador; nada é enviado a servidor). */
+export function CampoArquivo({ rotulo, aceitar, onCarregar, dica, erro }: CampoArquivoProps) {
+  const id = useId();
+  return (
+    <div className="fl-campo">
+      <label htmlFor={id}>{rotulo}</label>
+      <input
+        id={id}
+        type="file"
+        accept={aceitar}
+        className="fl-campo-arquivo"
+        onChange={async (e) => {
+          const arquivo = e.target.files?.[0];
+          if (arquivo) onCarregar(arquivo.name, await arquivo.text());
+        }}
+      />
+      {erro && <small className="fl-campo-erro">{erro}</small>}
+      {dica && <small className="fl-campo-dica">{dica}</small>}
+    </div>
+  );
+}
+
 interface CampoCaixaProps {
   rotulo: string;
   marcado: boolean;

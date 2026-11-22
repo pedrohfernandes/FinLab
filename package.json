@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "atualizar-dados": "tsx scripts/atualizar-dados.ts"
+    "atualizar-dados": "tsx scripts/atualizar-dados.ts",
+    "atualizar-cotacoes": "tsx scripts/atualizar-cotacoes.ts"
   },
   "dependencies": {
     "katex": "^0.19.0",

@@ -3,6 +3,7 @@
  * usadas pelo FinLab. Os textos alimentam os cartões do Módulo 0.
  */
 
+/** Séries do conjunto de taxas do dia (DadosTaxas). */
 export type ChaveSerie = 'selic' | 'cdi' | 'ipca12m' | 'ipcaMensal' | 'tr' | 'poupanca';
 
 export interface InfoSerie {
@@ -18,7 +19,8 @@ export interface InfoSerie {
   explicacao: string;
 }
 
-export const SERIES: Record<ChaveSerie, InfoSerie> = {
+/** Todas as séries consultadas: as taxas do dia e o CDI mensal dos Módulos 3 e 4 (que tem fluxo próprio, em cotacoes.ts). */
+export const SERIES: Record<ChaveSerie | 'cdiMensal', InfoSerie> = {
   selic: {
     codigo: 432,
     nome: 'Meta da taxa Selic',
@@ -77,5 +79,15 @@ export const SERIES: Record<ChaveSerie, InfoSerie> = {
     usadaEm: 'Conferência do cálculo da poupança (Módulo 0)',
     explicacao:
       'O que a caderneta rende em um mês. Usamos este valor oficial para conferir se o nosso cálculo da regra da poupança está correto.',
+  },
+  cdiMensal: {
+    codigo: 4391,
+    nome: 'CDI acumulado no mês',
+    sigla: 'CDI mês',
+    unidade: '% a.m.',
+    quemDefine: 'Mercado: é a taxa dos empréstimos entre bancos',
+    usadaEm: 'Taxa livre de risco mês a mês (Módulos 3 e 4)',
+    explicacao:
+      'Quanto o CDI rendeu em cada mês. É a taxa sem risco que descontamos do retorno das ações para obter o retorno em excesso.',
   },
 };

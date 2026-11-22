@@ -20,6 +20,15 @@ export const GLOSSARIO = {
   price: 'Tabela Price: parcelas de valor igual do início ao fim; no começo, a maior parte da parcela é juros.',
   'juros-compostos': 'Juros que incidem sobre o capital e também sobre os juros já acumulados ("juros sobre juros").',
   'newton-raphson': 'Método numérico que chega à solução de uma equação por aproximações sucessivas, cada uma melhor que a anterior.',
+  beta: 'Sensibilidade da ação ao mercado: quanto o retorno dela varia, em média, para cada 1% de variação do Ibovespa. β = 1 acompanha o mercado.',
+  'risco-sistematico': 'Risco que afeta todas as empresas ao mesmo tempo (juros, economia, política). Não pode ser eliminado com diversificação.',
+  'risco-especifico': 'Risco próprio de uma empresa ou setor (um contrato perdido, uma fraude, uma greve). Some quando se diversifica a carteira.',
+  sml: 'Linha do Mercado de Títulos: a reta do CAPM que liga o retorno exigido de cada ativo ao seu beta, partindo da taxa livre de risco.',
+  'premio-mercado': 'Quanto a mais, por ano, se espera que a bolsa renda acima da taxa livre de risco, como recompensa por correr o risco do mercado.',
+  'taxa-livre-risco': 'Retorno de uma aplicação sem risco de perda. No Brasil, usamos o CDI.',
+  volatilidade: 'Desvio-padrão dos retornos: mede o quanto o retorno costuma se afastar da média. Quanto maior, mais arriscado.',
+  correlacao: 'Medida de -1 a +1 de quanto dois ativos se movem juntos. Quanto menor, mais a combinação deles reduz o risco.',
+  diversificacao: 'Distribuir o dinheiro entre ativos diferentes, para que as perdas específicas de uns sejam compensadas por outros.',
 } as const;
 
 export type IdTermo = keyof typeof GLOSSARIO;

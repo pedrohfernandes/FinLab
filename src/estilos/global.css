@@ -46,13 +46,15 @@ select {
   color: #fff;
 }
 
-/* Três zonas: marca à esquerda, módulos no centro, "Sobre" à direita. */
+/* Três zonas: marca à esquerda, módulos no centro (com todo o espaço que sobra, para os
+   títulos completos caberem em uma linha), "Sobre" à direita. A margem do topo é menor
+   que a do conteúdo pelo mesmo motivo. */
 .fl-topo-interno {
   max-width: var(--largura);
   margin: 0 auto;
-  padding: 14px var(--margem);
+  padding: 14px clamp(16px, 2.5vw, 48px);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 16px;
 }
@@ -94,7 +96,8 @@ select {
 .fl-nav-sobre {
   color: #cfe3da;
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 8px 10px;
+  white-space: nowrap;
   border-radius: 10px;
   font-size: 15px;
 }
@@ -585,7 +588,8 @@ select {
   border: 1px solid;
 }
 
-.fl-veredito strong {
+/* Só o título (filho direto); um <strong> dentro do texto continua em linha. */
+.fl-veredito > strong {
   display: block;
   font: 800 22px var(--fonte-titulo);
   margin-bottom: 4px;
@@ -990,6 +994,15 @@ select {
   }
 }
 
+/* Notebooks (até ~1400 px): menu um pouco mais compacto, para os 5 títulos completos
+   continuarem em uma linha. Abaixo de 960 px o menu já vai para a segunda linha. */
+@media (max-width: 1400px) {
+  .fl-topo nav a {
+    font-size: 14px;
+    padding: 8px 8px;
+  }
+}
+
 /* Cartões de taxas: 3 por linha; 2 em telas médias; 1 em telas pequenas. */
 @media (max-width: 1100px) {
   .fl-cartoes-taxas {
@@ -1054,4 +1067,107 @@ select {
 .fl-balao strong {
   display: block;
   margin-bottom: 2px;
+}
+
+/* ---------- Trabalho 2: Módulos 3 e 4 ---------- */
+
+/* Fonte dos dados de mercado (preços do Yahoo e CDI mensal), logo abaixo do título do módulo. */
+.fl-fonte-mercado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
+
+.fl-fonte-mercado .fl-status-ponto {
+  flex: none;
+}
+
+/* Barra da decomposição do risco: parte sistemática × parte específica. */
+.fl-barra-risco {
+  display: flex;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 34px;
+}
+
+.fl-barra-risco span {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Garante espaço para o rótulo mesmo quando a fração é pequena (ex.: 11%). */
+.fl-barra-risco span {
+  flex-shrink: 0;
+  min-width: max-content;
+}
+
+.fl-barra-risco span:last-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.fl-barra-risco span:first-child {
+  background: var(--roxo);
+  color: #fff;
+}
+
+.fl-barra-risco span:last-child {
+  background: var(--roxo-claro);
+  color: var(--roxo);
+}
+
+/* Pesos da carteira: dois campos por linha. */
+.fl-pesos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 10px;
+}
+
+.fl-pesos .fl-campo {
+  padding-left: 0;
+  margin-bottom: 8px;
+}
+
+.fl-soma-pesos {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--verde);
+  margin: 4px 0 8px;
+}
+
+.fl-soma-pesos--erro {
+  color: var(--vermelho);
+}
+
+.fl-botoes-pesos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fl-campo-arquivo {
+  display: block;
+  width: 100%;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Matriz de correlações: números centralizados sobre a cor. */
+.fl-matriz td,
+.fl-matriz th {
+  text-align: center;
+}
+
+.fl-matriz td:first-child {
+  text-align: center;
 }

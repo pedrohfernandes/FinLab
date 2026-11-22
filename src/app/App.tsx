@@ -4,6 +4,8 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { TaxasProvider } from '../dados/TaxasContext';
 import AvistaParceladoPagina from '../modulos/avista-parcelado/AvistaParceladoPagina';
+import BetaCapmPagina from '../modulos/beta-capm/BetaCapmPagina';
+import CarteiraPagina from '../modulos/carteira/CarteiraPagina';
 import PoupancaCdbPagina from '../modulos/poupanca-cdb/PoupancaCdbPagina';
 import SacPricePagina from '../modulos/sac-price/SacPricePagina';
 import Inicio from '../paginas/Inicio';
@@ -24,6 +26,8 @@ export default function App() {
             <Route path="poupanca-cdb" element={<PoupancaCdbPagina />} />
             <Route path="avista-parcelado" element={<AvistaParceladoPagina />} />
             <Route path="sac-price" element={<SacPricePagina />} />
+            <Route path="beta-capm" element={<BetaCapmPagina />} />
+            <Route path="carteira" element={<CarteiraPagina />} />
             <Route path="sobre" element={<Sobre />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
