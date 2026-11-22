@@ -42,16 +42,21 @@ export async function buscarSerie(
   fim: Date,
   timeoutMs = TIMEOUT_PADRAO_MS,
 ): Promise<Ponto[]> {
-  const url = `${URL_BASE}.${codigo}/dados?formato=json&dataInicial=${paraBcb(inicio)}&dataFinal=${paraBcb(fim)}`;
+  const montarUrl = (ate: Date) =>
+    `${URL_BASE}.${codigo}/dados?formato=json&dataInicial=${paraBcb(inicio)}&dataFinal=${paraBcb(ate)}`;
   try {
-    return await consultar(url, codigo, timeoutMs, "default");
+    return await consultar(montarUrl(fim), codigo, timeoutMs, "default");
   } catch (erro) {
-    // A API do BC às vezes responde com erro passageiro (ex.: 304 com corpo vazio
-    // sem que tenhamos pedido cache). Uma segunda tentativa, sem cache, costuma
-    // funcionar. Se o problema foi tempo esgotado, não insiste: o BC está lento ou
-    // fora do ar, e o chamador já tem o plano B (cache ou cópia offline).
+    // A API do BC às vezes responde "304" com corpo vazio, e o cache do próprio BC
+    // guarda essa resposta para AQUELE endereço por até 15 minutos — repetir a mesma
+    // consulta devolve o mesmo erro. A segunda tentativa usa outro endereço: a data
+    // final um dia depois. Os dados não mudam, porque datas futuras são descartadas
+    // por quem usa a série.
+    // Se o problema foi tempo esgotado, não insiste: o BC está lento ou fora do ar,
+    // e o chamador já tem o plano B (cache ou cópia offline).
     if (erro instanceof Error && erro.name === "AbortError") throw erro;
-    return consultar(url, codigo, timeoutMs, "no-store");
+    const diaSeguinte = new Date(fim.getFullYear(), fim.getMonth(), fim.getDate() + 1);
+    return consultar(montarUrl(diaSeguinte), codigo, timeoutMs, "no-store");
   }
 }
 
